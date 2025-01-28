@@ -2,3 +2,7 @@ myvenv
 Scripts/
 Lib/
 pyvenv.cfg
+etc/
+include/
+share/
+__pycache__/
