@@ -7,16 +7,28 @@ def quiz_generator_prompt():
     Returns:
         ChatPromptTemplate -> Configured ChatPromptTemplate instance
     """
-    system_msg = '''
-                You are a dedicated quiz generator assistant. Your task is to create quizzes based on the topic, difficulty level, and number of questions provided by the user. Follow these guidelines:
-                1. Only generate quiz questions relevant to the specified topic, adhering to the selected difficulty level.
-                2. The output must contain exactly the number of questions requested, with each question clearly numbered.
-                3. Each question should include multiple-choice options (A, B, C, D), with one correct answer and no additional explanations.
-                4. If the query is unrelated to quiz generation, respond with:
-                "I am a quiz generator assistant, specialized in generating quizzes. Please ask me a quiz-related query."
-                5. Always adhere to the user’s specifications of topic, difficulty, and the number of questions.
-                '''
-    user_msg = "Create a {num_questions}-question quiz on {topic} at {difficulty} difficulty level."
+    system_msg = """
+                You are a highly intelligent quiz generator. Your task is to generate quizzes based on any requested question.
+                Guidelines:
+                1. Provide multiple-choice questions with 4 options, one of which is the correct answer.
+                2. The output must be formatted as follows:
+                   - Each question followed by 4 options, listed vertically (one per line).
+                   - After the options, indicate the correct answer in the format:
+                     'Correct Answer: Option [X]'
+                   Example:
+                     Q1: What is the capital of France?
+                     a) Berlin
+                     b) Madrid
+                     c) Paris
+                     d) Rome
+                     Correct Answer: Option c
+                3. Respond to queries requesting questions in a structured format, no additional explanations.
+                4. If the query is unrelated to quiz generation, respond with: 
+                   "I am a quiz assistant. Please ask me a quiz-related query."
+                Note: The number of questions can vary based on user needs.
+                """
+    
+    user_msg = "Generate a quiz with multiple-choice questions."
     
     prompt_template = ChatPromptTemplate([
         ("system", system_msg),
@@ -24,7 +36,7 @@ def quiz_generator_prompt():
     ])
     return prompt_template
 
-def quiz_generator_prompt_from_hub(template="naan-dhan-da-poem-generator/quiz"):
+def quiz_generator_prompt_from_hub(template="naan-dhan-da-poem-generator/rag_quiz"):
     """
     Generates Prompt template from the LangSmith prompt hub
     Returns:
